@@ -7,13 +7,19 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 1.0f;
-    [SerializeField] private Vector2 jumpHeight;
-    public Vector2 boxSize;
-    public float castDistance;
-    public LayerMask groundLayer;
-    void Start()
-    {
+    [SerializeField] private float jumpHeight = 5.0f;
 
+    private Animator animator;
+
+    public ContactFilter2D castFilter;
+    public float groundDistance = 0.05f;
+    private CapsuleCollider2D coll;
+    RaycastHit2D[] groundHits = new RaycastHit2D[4];
+
+    private void Awake()
+    {
+        coll = GetComponent<CapsuleCollider2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -22,11 +28,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (horizontalInput != 0)
         {
-            GetComponent<Animator>().SetBool("moving", true);
+            animator.SetBool("moving", true);
         }
         else
         {
-            GetComponent<Animator>().SetBool("moving", false);
+            animator.SetBool("moving", false);
         }
 
 
@@ -43,33 +49,35 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        // left/right
         float horizontalInput = Input.GetAxis("Horizontal");
 
-
-        // left/right
         Vector2 direction = new Vector2(horizontalInput, 0);
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
-        GetComponent<Rigidbody2D>().velocity = new Vector2(direction.x * moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
+        rb.velocity = new Vector2(direction.x * moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
 
-
-
-        float jumpInput = Input.GetAxis("Jump");
+        animator.SetFloat("yVelocity", rb.velocity.y);
 
         // jumping
+        float jumpInput = Input.GetAxis("Jump");
+
         if (isGrounded() && jumpInput > 0)
         {
-            GetComponent<Rigidbody2D>().AddForce(jumpHeight, ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
         }
     }
 
     bool isGrounded()
     {
-        if (Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer))
+        if (coll.Cast(Vector2.down, castFilter, groundHits, groundDistance) > 0)
         {
+            animator.SetBool("grounded", true);
             return true;
         }
         else
         {
+            animator.SetBool("grounded", false);
             return false;
         }
     }

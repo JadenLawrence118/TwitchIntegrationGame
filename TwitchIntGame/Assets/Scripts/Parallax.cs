@@ -15,9 +15,10 @@ public class Parallax : MonoBehaviour
 
     float zDistanceFromTarget => transform.position.z - followTarget.transform.position.z;
 
+    // ? in setter means take the first following value if the statement is correct, otherwise take the second
     float clippingPlane => (cam.transform.position.z + (zDistanceFromTarget > 0 ? cam.farClipPlane : cam.nearClipPlane));
 
-    // parallax pbject moves faster the further it is from the target
+    // parallax object moves faster the further it is from the target
     float parallaxFactor => Mathf.Abs(zDistanceFromTarget) / clippingPlane;
 
     void Start()
