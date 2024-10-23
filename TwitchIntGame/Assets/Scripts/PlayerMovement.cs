@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed = 1.0f;
+    [SerializeField] private float moveSpeed = 1.0f;
     [SerializeField] private Vector2 jumpHeight;
     public Vector2 boxSize;
     public float castDistance;
@@ -16,30 +16,43 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+
+        if (horizontalInput != 0)
+        {
+            GetComponent<Animator>().SetBool("moving", true);
+        }
+        else
+        {
+            GetComponent<Animator>().SetBool("moving", false);
+        }
+
+
+        // left/right
+
+        if (horizontalInput < 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else if (horizontalInput > 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+    }
+    private void FixedUpdate()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
 
 
         // left/right
-        Vector3 direction = new Vector2(horizontalInput, 0);
+        Vector2 direction = new Vector2(horizontalInput, 0);
 
-        transform.Translate(direction * speed * Time.deltaTime);
+        GetComponent<Rigidbody2D>().velocity = new Vector2(direction.x * moveSpeed, GetComponent<Rigidbody2D>().velocity.y);
 
-        if (horizontalInput < 0)
-        {
-            GetComponent<SpriteRenderer>().flipX = true;
-            transform.GetChild(0).transform.rotation = new Quaternion(0, 0, 180, 0);
-        }
-        else if (horizontalInput > 0)
-        {
-            GetComponent<SpriteRenderer>().flipX = false;
-            transform.GetChild(0).transform.rotation = new Quaternion(0, 0, 0, 0);
-        }
-    }
-    private void FixedUpdate()
-    {
+
+
         float jumpInput = Input.GetAxis("Jump");
 
         // jumping
