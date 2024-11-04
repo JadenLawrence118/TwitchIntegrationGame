@@ -10,15 +10,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpHeight = 5.0f;
 
     private Animator animator;
-
-    public ContactFilter2D castFilter;
-    public float groundDistance = 0.05f;
-    private CapsuleCollider2D coll;
-    RaycastHit2D[] groundHits = new RaycastHit2D[4];
+    private bool grounded = true;
 
     private void Awake()
     {
-        coll = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
     }
 
@@ -62,23 +57,21 @@ public class PlayerMovement : MonoBehaviour
         // jumping
         float jumpInput = Input.GetAxis("Jump");
 
-        if (isGrounded() && jumpInput > 0)
+        if (grounded && jumpInput > 0)
         {
             rb.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
         }
     }
 
-    bool isGrounded()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (coll.Cast(Vector2.down, castFilter, groundHits, groundDistance) > 0)
-        {
-            animator.SetBool("grounded", true);
-            return true;
-        }
-        else
-        {
-            animator.SetBool("grounded", false);
-            return false;
-        }
+        animator.SetBool("grounded", true);
+        grounded = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        animator.SetBool("grounded", false);
+        grounded = false;
     }
 }
