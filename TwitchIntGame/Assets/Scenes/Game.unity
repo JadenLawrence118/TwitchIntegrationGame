@@ -4556,6 +4556,8 @@ GameObject:
   - component: {fileID: 1522702729}
   - component: {fileID: 1522702728}
   - component: {fileID: 1522702731}
+  - component: {fileID: 1522702732}
+  - component: {fileID: 1522702733}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -4687,6 +4689,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f58a3e246791f498f7cea5c206d29f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 1
+--- !u!50 &1522702732
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522702727}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 100
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!70 &1522702733
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522702727}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0044359826, y: 0.0018702956}
+  m_Size: {x: 0.8969631, y: 0.72417057}
+  m_Direction: 1
 --- !u!1 &1782304278
 GameObject:
   m_ObjectHideFlags: 0
@@ -4782,7 +4847,6 @@ GameObject:
   - component: {fileID: 2117449168}
   - component: {fileID: 2117449169}
   - component: {fileID: 2117449170}
-  - component: {fileID: 2117449171}
   m_Layer: 0
   m_Name: BG3
   m_TagString: Untagged
@@ -4871,18 +4935,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 519420031}
   followTarget: {fileID: 8831321217489016279}
---- !u!114 &2117449171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117449167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78f58a3e246791f498f7cea5c206d29f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8831321217489016278
 PrefabInstance:
   m_ObjectHideFlags: 0
