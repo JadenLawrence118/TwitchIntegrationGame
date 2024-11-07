@@ -11,27 +11,69 @@ public class PlatformMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 5;
 
     private GameObject map;
-    private Rigidbody2D rb;
+
+    private Vector2 lastPos;
 
     void Awake()
     {
         twitch = GameObject.Find("TwitchConnect").GetComponent<TwitchConnect>();
         direction = new Vector2(0, 0);
         map = GameObject.Find("Foreground");
-        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(direction.x * moveSpeed, direction.y * moveSpeed);
+        transform.position = new Vector2(transform.position.x + (direction.x * moveSpeed), transform.position.y + (direction.y * moveSpeed));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision == map.GetComponent<Collision2D>())
+        if (collision.transform == map.transform)
         {
-            rb.velocity = new Vector2(0, 0);
+            direction.x = 0;
+            direction.y = 0;
+            transform.position = lastPos;
+        }
+
+        if (collision.transform == GameObject.FindGameObjectWithTag("Player").transform)
+        {
+            collision.transform.parent = transform;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform == GameObject.FindGameObjectWithTag("Player").transform)
+        {
+            collision.transform.parent = null;
+        }
+    }
+
+    private void Update()
+    {
+        lastPos = transform.position;
+
+        // DEBUG
+        if (Input.GetKeyUp(KeyCode.J))
+        {
+            direction.x = -1;
+            direction.y = 0;
+        }
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            direction.x = 1;
+            direction.y = 0;
+        }
+        if (Input.GetKeyUp(KeyCode.I))
+        {
+            direction.x = 0;
+            direction.y = 1;
+        }
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            direction.x = 0;
+            direction.y = -1;
         }
     }
 
