@@ -5,8 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class PlatformMovement : MonoBehaviour
 {
-    private TwitchConnect twitch;
-
     private Vector2 direction;
     [SerializeField] private float moveSpeed = 5;
 
@@ -16,7 +14,6 @@ public class PlatformMovement : MonoBehaviour
 
     void Awake()
     {
-        twitch = GameObject.Find("TwitchConnect").GetComponent<TwitchConnect>();
         direction = new Vector2(0, 0);
         map = GameObject.Find("Foreground");
     }
@@ -77,34 +74,30 @@ public class PlatformMovement : MonoBehaviour
         }
     }
 
-    public void OnChatMessage()
+    public void OnChatMessage(string msg)
     {
-        if (twitch.msg.ToLower().Contains("left"))
+        if (msg.ToLower().Contains("left"))
         {
             direction.x = -1;
             direction.y = 0;
-            print(twitch.msg);
         }
 
-        if (twitch.msg.ToLower().Contains("right"))
+        if (msg.ToLower().Contains("right"))
         {
             direction.x = 1;
             direction.y = 0;
-            print(twitch.msg);
         }
 
-        if (twitch.msg.ToLower().Contains("up"))
+        if (msg.ToLower().Contains("up"))
         {
             direction.x = 0;
             direction.y = 1;
-            print(twitch.msg);
         }
 
-        if (twitch.msg.ToLower().Contains("down"))
+        if (msg.ToLower().Contains("down"))
         {
             direction.x = 0;
             direction.y = -1;
-            print(twitch.msg);
         }
     }
 }

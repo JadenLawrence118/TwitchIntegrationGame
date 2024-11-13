@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Net.Sockets;
 using System.IO;
+using System.Globalization;
 
 public class TwitchConnect : MonoBehaviour
 {
-    public UnityEvent OnChatMessage;
+    private PlatformMovement platMove;
+    private ChatManager chatManager;
+
     TcpClient Twitch;
     StreamReader Reader;
     StreamWriter Writer;
@@ -18,8 +21,6 @@ public class TwitchConnect : MonoBehaviour
     string User = "programmerguy118";
     string OAuth = "oauth:oxwjvt53a75bg4cmjussdd58k5mwvm";
     string Channel = "TheLankyDude118";
-
-    public string msg;
 
     private void ConnectToTwitch()
     {
@@ -34,6 +35,8 @@ public class TwitchConnect : MonoBehaviour
     }
     void Awake()
     {
+        platMove = GameObject.Find("Platform").GetComponent<PlatformMovement>();
+        chatManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<ChatManager>();
         ConnectToTwitch();
     }
 
@@ -49,9 +52,13 @@ public class TwitchConnect : MonoBehaviour
 
             if (message.Contains("PRIVMSG"))
             {
-                int splitPoint = message.IndexOf(":", 1);
-                msg = message.Substring(splitPoint + 1);
-                OnChatMessage.Invoke();
+                int splitPoint = message.IndexOf("!");
+                string chatter = message.Substring(1, splitPoint - 1);
+
+                splitPoint = message.IndexOf(":", 1);
+                string msg = message.Substring(splitPoint + 1);
+                platMove.OnChatMessage(msg);
+                chatManager.AddMessage(chatter, msg);
             }
         }
     }
