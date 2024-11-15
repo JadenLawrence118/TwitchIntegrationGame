@@ -22,22 +22,26 @@ public class TwitchConnect : MonoBehaviour
     string OAuth = "oauth:oxwjvt53a75bg4cmjussdd58k5mwvm";
     string Channel = "TheLankyDude118";
 
+    private Globals global;
+
+    void Awake()
+    {
+        platMove = GameObject.Find("Platform").GetComponent<PlatformMovement>();
+        chatManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<ChatManager>();
+        global = GameObject.Find("Globals").GetComponent<Globals>();
+        ConnectToTwitch();
+    }
+
     private void ConnectToTwitch()
     {
         Twitch = new TcpClient(URL, PORT);
         Reader = new StreamReader(Twitch.GetStream());
         Writer = new StreamWriter(Twitch.GetStream());
 
-        Writer.WriteLine("PASS " + OAuth);
+        Writer.WriteLine("PASS " + global.OAuth);
         Writer.WriteLine("NICK " + User);
         Writer.WriteLine("JOIN #" + Channel.ToLower());
         Writer.Flush();
-    }
-    void Awake()
-    {
-        platMove = GameObject.Find("Platform").GetComponent<PlatformMovement>();
-        chatManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<ChatManager>();
-        ConnectToTwitch();
     }
 
     void Update()

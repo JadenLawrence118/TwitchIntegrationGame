@@ -29,7 +29,6 @@ public class ChatManager : MonoBehaviour
     IEnumerator UpdateChat()
     {
         yield return new WaitForEndOfFrame();
-        print("hello");
         scroller.verticalNormalizedPosition = 0;
     }
 }

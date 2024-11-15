@@ -12,10 +12,13 @@ public class PlatformMovement : MonoBehaviour
 
     private Vector2 lastPos;
 
+    private Globals global;
+
     void Awake()
     {
         direction = new Vector2(0, 0);
         map = GameObject.Find("Foreground");
+        global = GameObject.Find("Globals").GetComponent<Globals>();
     }
 
     // Update is called once per frame
@@ -51,53 +54,58 @@ public class PlatformMovement : MonoBehaviour
     {
         lastPos = transform.position;
 
-        // DEBUG
-        if (Input.GetKeyUp(KeyCode.J))
+        if (global.single)
         {
-            direction.x = -1;
-            direction.y = 0;
-        }
-        if (Input.GetKeyUp(KeyCode.L))
-        {
-            direction.x = 1;
-            direction.y = 0;
-        }
-        if (Input.GetKeyUp(KeyCode.I))
-        {
-            direction.x = 0;
-            direction.y = 1;
-        }
-        if (Input.GetKeyUp(KeyCode.K))
-        {
-            direction.x = 0;
-            direction.y = -1;
+            if (Input.GetKeyUp(KeyCode.J))
+            {
+                direction.x = -1;
+                direction.y = 0;
+            }
+            if (Input.GetKeyUp(KeyCode.L))
+            {
+                direction.x = 1;
+                direction.y = 0;
+            }
+            if (Input.GetKeyUp(KeyCode.I))
+            {
+                direction.x = 0;
+                direction.y = 1;
+            }
+            if (Input.GetKeyUp(KeyCode.K))
+            {
+                direction.x = 0;
+                direction.y = -1;
+            }
         }
     }
 
     public void OnChatMessage(string msg)
     {
-        if (msg.ToLower().Contains("left"))
+        if (!global.single)
         {
-            direction.x = -1;
-            direction.y = 0;
-        }
+            if (msg.ToLower().Contains("left"))
+            {
+                direction.x = -1;
+                direction.y = 0;
+            }
 
-        if (msg.ToLower().Contains("right"))
-        {
-            direction.x = 1;
-            direction.y = 0;
-        }
+            if (msg.ToLower().Contains("right"))
+            {
+                direction.x = 1;
+                direction.y = 0;
+            }
 
-        if (msg.ToLower().Contains("up"))
-        {
-            direction.x = 0;
-            direction.y = 1;
-        }
+            if (msg.ToLower().Contains("up"))
+            {
+                direction.x = 0;
+                direction.y = 1;
+            }
 
-        if (msg.ToLower().Contains("down"))
-        {
-            direction.x = 0;
-            direction.y = -1;
+            if (msg.ToLower().Contains("down"))
+            {
+                direction.x = 0;
+                direction.y = -1;
+            }
         }
     }
 }
