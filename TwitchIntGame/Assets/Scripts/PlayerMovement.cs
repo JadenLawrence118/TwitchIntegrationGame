@@ -11,10 +11,12 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator animator;
     private bool grounded = true;
+    private Vector2 respawnPoint;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        respawnPoint = transform.position;
     }
 
     void Update()
@@ -65,13 +67,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        animator.SetBool("grounded", true);
-        grounded = true;
+        if (collision.tag == "Platform" || collision.tag == "Ground")
+        {
+            animator.SetBool("grounded", true);
+            grounded = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        animator.SetBool("grounded", false);
-        grounded = false;
+        if (collision.tag == "Platform" || collision.tag == "Ground")
+        {
+            animator.SetBool("grounded", false);
+            grounded = false;
+        }
+    }
+
+    public void SetRespawn(Vector2 location)
+    {
+        respawnPoint = location;
+        print(respawnPoint);
+    }
+
+    public void Die()
+    {
+        transform.position = respawnPoint;
     }
 }
