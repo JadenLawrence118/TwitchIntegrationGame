@@ -10,6 +10,9 @@ public class PlatformMovement : MonoBehaviour
 
     private Vector2 stretch;
     [SerializeField] private float stretchSpeed = 5;
+    [SerializeField] private float minSideSquash = 0.5f;
+    [SerializeField] private float minDownSquash = 0.5f;
+
 
     private GameObject map;
 
@@ -22,7 +25,7 @@ public class PlatformMovement : MonoBehaviour
     {
         direction = new Vector2(0, 0);
         map = GameObject.Find("Foreground");
-        //global = GameObject.Find("Globals").GetComponent<Globals>();
+        global = GameObject.Find("Globals").GetComponent<Globals>();
     }
 
     void FixedUpdate()
@@ -62,9 +65,19 @@ public class PlatformMovement : MonoBehaviour
     private void Update()
     {
         lastPos = transform.parent.position;
-        lastScale = transform.localScale;
 
-        //if (global.single)
+        if (transform.localScale.x < minSideSquash || transform.localScale.y < minDownSquash)
+        {
+            stretch.x = 0;
+            stretch.y = 0;
+            transform.localScale = lastScale;
+        }
+        else
+        {
+            lastScale = transform.localScale;
+        }
+
+        if (global.single)
         {
             if (Input.GetKeyUp(KeyCode.J))
             {
@@ -129,28 +142,64 @@ public class PlatformMovement : MonoBehaviour
     {
         if (!global.single)
         {
-            if (msg.ToLower().Contains("left"))
+            if (msg.ToLower().Contains("!left"))
             {
                 direction.x = -1;
                 direction.y = 0;
+                stretch.x = 0;
+                stretch.y = 0;
             }
 
-            if (msg.ToLower().Contains("right"))
+            if (msg.ToLower().Contains("!right"))
             {
                 direction.x = 1;
                 direction.y = 0;
+                stretch.x = 0;
+                stretch.y = 0;
             }
 
-            if (msg.ToLower().Contains("up"))
+            if (msg.ToLower().Contains("!up"))
             {
                 direction.x = 0;
                 direction.y = 1;
+                stretch.x = 0;
+                stretch.y = 0;
             }
 
-            if (msg.ToLower().Contains("down"))
+            if (msg.ToLower().Contains("!down"))
             {
                 direction.x = 0;
                 direction.y = -1;
+                stretch.x = 0;
+                stretch.y = 0;
+            }
+            if (msg.ToLower().Contains("!sidestretch"))
+            {
+                direction.x = 0;
+                direction.y = 0;
+                stretch.x = 1;
+                stretch.y = 0;
+            }
+            if (msg.ToLower().Contains("!sidesquash"))
+            {
+                direction.x = 0;
+                direction.y = 0;
+                stretch.x = -1;
+                stretch.y = 0;
+            }
+            if (msg.ToLower().Contains("!upstretch"))
+            {
+                direction.x = 0;
+                direction.y = 0;
+                stretch.x = 0;
+                stretch.y = 1;
+            }
+            if (msg.ToLower().Contains("!downsquash"))
+            {
+                direction.x = 0;
+                direction.y = 0;
+                stretch.x = 0;
+                stretch.y = -1;
             }
         }
     }
