@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private bool grounded = true;
     private Vector2 respawnPoint;
+
+    private bool killable = true;
+
+    private int deaths = 0;
+    [SerializeField] private TextMeshProUGUI deathCounter;
 
     private void Awake()
     {
@@ -71,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("grounded", true);
             grounded = true;
+            killable = true;
         }
     }
 
@@ -91,6 +98,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
-        transform.position = respawnPoint;
+        if (killable)
+        {
+            transform.position = respawnPoint;
+            deaths++;
+            deathCounter.text = "Deaths: " + deaths.ToString();
+            killable = false;
+        }
     }
 }
