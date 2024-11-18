@@ -42,4 +42,12 @@ public class MenuButtons : MonoBehaviour
 
         SceneManager.LoadScene(1);
     }
+    public void InstrStream() 
+    {
+        SceneManager.LoadScene(3);
+    }
+    public void InstrSingle()
+    {
+        SceneManager.LoadScene(4);
+    }
 }
