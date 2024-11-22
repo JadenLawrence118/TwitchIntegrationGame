@@ -93,7 +93,6 @@ public class PlayerMovement : MonoBehaviour
     public void SetRespawn(Vector2 location)
     {
         respawnPoint = location;
-        print(respawnPoint);
     }
 
     public void Die()
