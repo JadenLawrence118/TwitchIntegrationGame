@@ -16,12 +16,12 @@ public class MenuButtons : MonoBehaviour
     public void PlayStream()
     {
         global.single = false;
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(4);
     }
     public void PlaySingle()
     {
         global.single = true;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(5);
     }
     public void LoadInstr()
     {
@@ -29,7 +29,7 @@ public class MenuButtons : MonoBehaviour
     }
     public void BackHome()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
     public void Login()
     {
@@ -40,14 +40,14 @@ public class MenuButtons : MonoBehaviour
             global.OAuth = input;
         }
 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(5);
     }
     public void InstrStream() 
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(2);
     }
     public void InstrSingle()
     {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(3);
     }
 }
