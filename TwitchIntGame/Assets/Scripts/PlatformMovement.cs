@@ -13,6 +13,9 @@ public class PlatformMovement : MonoBehaviour
     [SerializeField] private float minSideSquash = 0.5f;
     [SerializeField] private float minDownSquash = 0.5f;
 
+    [Header("Distance from the player to respawn")]
+    [SerializeField] private Vector2 respawnPos;
+
 
     private GameObject map;
 
@@ -20,12 +23,14 @@ public class PlatformMovement : MonoBehaviour
     private Vector2 lastScale;
 
     private Globals global;
+    private GameObject player;
 
     void Awake()
     {
         direction = new Vector2(0, 0);
         map = GameObject.Find("Foreground");
         global = GameObject.Find("Globals").GetComponent<Globals>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void FixedUpdate()
@@ -48,7 +53,7 @@ public class PlatformMovement : MonoBehaviour
             transform.localScale = lastScale;
         }
 
-        if (collision.transform == GameObject.FindGameObjectWithTag("Player").transform)
+        if (collision.transform == player.transform)
         {
             collision.transform.parent = transform.parent;
         }
@@ -56,7 +61,7 @@ public class PlatformMovement : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.transform == GameObject.FindGameObjectWithTag("Player").transform)
+        if (collision.transform == player.transform)
         {
             collision.transform.parent = null;
         }
@@ -135,6 +140,14 @@ public class PlatformMovement : MonoBehaviour
                 stretch.x = 0;
                 stretch.y = -1;
             }
+            if (Input.GetKeyUp(KeyCode.M))
+            {
+                direction.x = 0;
+                direction.y = 0;
+                stretch.x = 0;
+                stretch.y = 0;
+                transform.parent.position = new Vector2(player.transform.position.x + respawnPos.x, player.transform.position.y + respawnPos.y);
+            }
         }
     }
 
@@ -200,6 +213,14 @@ public class PlatformMovement : MonoBehaviour
                 direction.y = 0;
                 stretch.x = 0;
                 stretch.y = -1;
+            }
+            if (msg.ToLower().Contains("!respawn"))
+            {
+                direction.x = 0;
+                direction.y = 0;
+                stretch.x = 0;
+                stretch.y = 0;
+                transform.parent.position = new Vector2(player.transform.position.x + respawnPos.x, player.transform.position.y + respawnPos.y);
             }
         }
     }
