@@ -9,7 +9,7 @@ public class EndTrigger : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            SceneManager.LoadScene(5);
+            SceneManager.LoadScene(6);
         }
     }
 }
