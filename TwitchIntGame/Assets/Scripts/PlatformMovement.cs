@@ -21,6 +21,7 @@ public class PlatformMovement : MonoBehaviour
 
     private Vector2 lastPos;
     private Vector2 lastScale;
+    private Vector2 startScale;
 
     private Globals global;
     private GameObject player;
@@ -31,6 +32,7 @@ public class PlatformMovement : MonoBehaviour
         map = GameObject.Find("Foreground");
         global = GameObject.Find("Globals").GetComponent<Globals>();
         player = GameObject.FindGameObjectWithTag("Player");
+        startScale = transform.localScale;
     }
 
     void FixedUpdate()
@@ -146,6 +148,7 @@ public class PlatformMovement : MonoBehaviour
                 direction.y = 0;
                 stretch.x = 0;
                 stretch.y = 0;
+                transform.localScale = startScale;
                 transform.parent.position = new Vector2(player.transform.position.x + respawnPos.x, player.transform.position.y + respawnPos.y);
             }
         }
@@ -220,6 +223,7 @@ public class PlatformMovement : MonoBehaviour
                 direction.y = 0;
                 stretch.x = 0;
                 stretch.y = 0;
+                transform.localScale = startScale;
                 transform.parent.position = new Vector2(player.transform.position.x + respawnPos.x, player.transform.position.y + respawnPos.y);
             }
         }
