@@ -5,6 +5,7 @@ using UnityEngine;
 public class Globals : MonoBehaviour
 {
     public string OAuth;
+    public string Channel;
     public bool single = true;
     void Awake()
     {

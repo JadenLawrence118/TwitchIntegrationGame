@@ -18,9 +18,7 @@ public class TwitchConnect : MonoBehaviour
     const string URL = "irc.chat.twitch.tv";
     const int PORT = 6667;
 
-    string User = "programmerguy118";
-    string OAuth = "oauth:oxwjvt53a75bg4cmjussdd58k5mwvm";
-    string Channel = "TheLankyDude118";
+    string User = "Anyone";
 
     private Globals global;
 
@@ -40,7 +38,7 @@ public class TwitchConnect : MonoBehaviour
 
         Writer.WriteLine("PASS " + global.OAuth);
         Writer.WriteLine("NICK " + User);
-        Writer.WriteLine("JOIN #" + Channel.ToLower());
+        Writer.WriteLine("JOIN #" + global.Channel.ToLower());
         Writer.Flush();
     }
 

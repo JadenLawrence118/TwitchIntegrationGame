@@ -33,11 +33,18 @@ public class MenuButtons : MonoBehaviour
     }
     public void Login()
     {
-        string input = GameObject.Find("inputLogin").GetComponent<TMP_InputField>().text;
+        string inputName = GameObject.Find("inputNameLogin").GetComponent<TMP_InputField>().text;
 
-        if (input != "")
+        string inputToken = GameObject.Find("inputTokenLogin").GetComponent<TMP_InputField>().text;
+
+        if (inputName != "")
         {
-            global.OAuth = input;
+            global.Channel = inputName;
+        }
+
+        if (inputToken != "")
+        {
+            global.OAuth = "oauth:" + inputToken;
         }
 
         SceneManager.LoadScene(5);
